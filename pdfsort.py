@@ -4,6 +4,7 @@ import time
 from rotate_all import rotate_all as rotate_function
 from generate_new_pdf import generate_new_pdf
 from rotate_pages_by_degrees import rotate_pages_by_degrees
+from split import loop_scripts
 
 @click.group(invoke_without_command=False)
 @click.pass_context
@@ -53,6 +54,24 @@ def rotate_pages(input_pdf, output_pdf, pages_list, degrees):
     rotate_pages_by_degrees(input_pdf, pages_list, output_pdf, int(degrees))
 
     click.secho("Created: " + output_pdf, fg='green')
+    time2 = time.time()
+    time_string = '%0.3f seconds' % ((time2-time1))
+    time_string = "Finished: " + time_string
+    click.secho(time_string, fg='green')
+
+@cli.command()
+@click.argument('input_pdf')
+@click.argument('output_pdf')
+@click.argument('first_page')
+@click.argument('last_page')
+@click.argument('increment')
+def split(input_pdf, output_pdf, first_page, last_page, increment):
+    time1 = time.time()
+    description = "Splitting " + input_pdf
+    click.secho(description, fg='green')
+
+    loop_scripts(input_pdf, int(first_page), int(last_page), int(increment), output_pdf)
+
     time2 = time.time()
     time_string = '%0.3f seconds' % ((time2-time1))
     time_string = "Finished: " + time_string
