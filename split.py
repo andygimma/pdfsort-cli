@@ -28,7 +28,8 @@ def loop_scripts(pdf, start_page, total_pages, increment, outputpdf):
     current_page = start_page
     for index in range(start_page, total_pages+1):
         if (current_page < total_pages):
-            pdfName = str(index) + "-" + outputpdf
+            # pdfName = str(index) + "-" + outputpdf
+            pdfName = outputpdf.replace(".pdf", "") + "-" + str(index) + ".pdf"
             last_page = current_page + increment - 1
             if last_page > total_pages:
                 last_page = total_pages
