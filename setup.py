@@ -11,5 +11,6 @@ setup(
     entry_points='''
         [console_scripts]
         pdfsort=pdfsort:cli
+        kedsort=pdfsort:kedsort
     ''',
 )

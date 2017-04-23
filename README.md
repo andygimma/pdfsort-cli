@@ -34,6 +34,9 @@ Note: This currently relies on `pdfjam`. This will be changed in the near future
 #### KED sort
 `pdfsort kedsort --input file.pdf --tracker_pages 1,2,3 --sign_in_pages 24,25,26 --canvass_pages 4-23 --increment 4`
 
+#### KED sort standalone
+`kedsort --input file.pdf --tracker_pages 1,2,3 --sign_in_pages 24,25,26 --canvass_pages 4-23 --increment 4`
+
 This will create
 
 * [input file name]-tracker.pdf (if you use the --tracker_pages option)
