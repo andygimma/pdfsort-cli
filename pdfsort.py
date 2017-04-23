@@ -100,22 +100,39 @@ def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
     if tracker_pages:
         tracker_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-tracker.pdf"
         bashCommand = "pdfsort generate " + input_pdf + " " + tracker_pdf + " " + tracker_pages
-        subprocess.call(['bash','-c', bashCommand])
+        click.secho("Adding tracker pages", fg='green')
+
+        generate_new_pdf(input_pdf, tracker_pages, tracker_pdf)
+
+        # subprocess.call(['bash','-c', bashCommand])
 
     if sign_in_pages:
         sign_in_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-sign_in.pdf"
         bashCommand = "pdfsort generate " + input_pdf + " " + sign_in_pdf + " " + sign_in_pages
-        subprocess.call(['bash','-c', bashCommand])
+        click.secho("Adding sign in pages", fg='green')
+
+        generate_new_pdf(input_pdf, sign_in_pages, sign_in_pdf)
+
+        # subprocess.call(['bash','-c', bashCommand])
 
     if canvass_pages:
         canvass_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-canvass.pdf"
         bashCommand = "pdfsort generate " + input_pdf + " " + canvass_pdf + " " + canvass_pages
-        subprocess.call(['bash','-c', bashCommand])
+        click.secho("Adding canvass pages", fg='green')
+
+        generate_new_pdf(input_pdf, canvass_pages, canvass_pdf)
+
+        # subprocess.call(['bash','-c', bashCommand])
 
         if increment:
             total_pages = PyPDF2.PdfFileReader(canvass_pdf, False).getNumPages()
             bashCommand = "pdfsort split " + canvass_pdf + " " + canvass_pdf + " 1 " + str(total_pages) + " " + str(increment)
-            subprocess.call(['bash','-c', bashCommand])
+            click.secho("Splitting canvass pages", fg='green')
+
+            loop_scripts(canvass_pdf, 1, total_pages, int(increment), canvass_pdf)
+
+
+            # subprocess.call(['bash','-c', bashCommand])
 
     time2 = time.time()
     time_string = '%0.3f seconds' % ((time2-time1))
