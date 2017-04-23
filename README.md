@@ -30,3 +30,13 @@ Note: This currently relies on `pdfjam`. This will be changed in the near future
 #### Rotate a given list of pages and create an output pdf.
 
 `pdfsort rotate_pages input_pdf, output_pdf, pages, degrees`
+
+#### KED sort
+`pdfsort kedsort --input file.pdf --tracker_pages 1,2,3 --sign_in_pages 24,25,26 --canvass_pages 4-23 --increment 4`
+
+This will create
+
+* [input file name]-tracker.pdf (if you use the --tracker_pages option)
+* [input file name]-sign_in.pdf (if you use the --sign_in_pages option)
+* [input file name]-canvass.pdf (if you use the --canvass_pages option)
+* 1-[input file name]-canvass.pdf (if you use the --increment option)
