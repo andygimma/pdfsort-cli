@@ -1,5 +1,7 @@
 import click
 import time
+import PyPDF2
+import subprocess
 
 from rotate_all import rotate_all as rotate_function
 from generate_new_pdf import generate_new_pdf
@@ -30,6 +32,7 @@ def rotate_all(input_pdf, output_pdf, degrees):
 @click.argument('output_pdf')
 @click.argument('pages_list')
 def generate(input_pdf, output_pdf, pages_list):
+    print "GENERATE"
     time1 = time.time()
     description = "Creating " + output_pdf + " from " + input_pdf + " pages " + pages_list
     click.secho(description, fg='green')
@@ -76,3 +79,35 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
     time_string = '%0.3f seconds' % ((time2-time1))
     time_string = "Finished: " + time_string
     click.secho(time_string, fg='green')
+
+#pdfsort kedsort --input file.pdf --trackers 1,2,3 --sign_in 24,25,26 --canvass 4-23 --increment 4
+
+@cli.command()
+@click.argument('input_pdf')
+@click.option('--tracker_pages')
+@click.option('--sign_in_pages')
+@click.option('--canvass_pages')
+@click.option('--increment')
+
+def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
+    if tracker_pages:
+        tracker_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-tracker.pdf"
+        bashCommand = "pdfsort generate " + input_pdf + " " + tracker_pdf + " " + tracker_pages
+        subprocess.call(['bash','-c', bashCommand])
+
+    if sign_in_pages:
+        sign_in_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-sign_in.pdf"
+        bashCommand = "pdfsort generate " + input_pdf + " " + sign_in_pdf + " " + sign_in_pages
+        subprocess.call(['bash','-c', bashCommand])
+
+    if canvass_pages and increment:
+        canvass_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-canvass.pdf"
+        bashCommand = "pdfsort generate " + input_pdf + " " + canvass_pdf + " " + canvass_pages
+        subprocess.call(['bash','-c', bashCommand])
+
+        total_pages = PyPDF2.PdfFileReader(canvass_pdf, False).getNumPages()
+        bashCommand = "pdfsort split " + canvass_pdf + " " + canvass_pdf + " 1 " + str(total_pages) + " " + str(increment)
+        subprocess.call(['bash','-c', bashCommand])
+
+    if canvass_pages and not increment:
+        click.secho("Can't use canvass_pdf without increment", fg="red", bg="white")
