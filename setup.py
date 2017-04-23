@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='pdf-processor',
+    name='pdfsort',
     version='0.1',
     py_modules=['idk'],
     install_requires=[
