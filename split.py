@@ -1,5 +1,4 @@
 import click
-import subprocess
 import os
 import PyPDF2
 

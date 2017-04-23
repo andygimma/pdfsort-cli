@@ -1,7 +1,6 @@
 import click
 import time
 import PyPDF2
-import subprocess
 
 from rotate_all import rotate_all as rotate_function
 from generate_new_pdf import generate_new_pdf
@@ -91,6 +90,10 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
 
 def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
     click.secho('Starting kedsort\n', fg="green")
+    # if tracker_pages: click.secho('Creating tracker pages', fg="blue")
+    # if sign_in_pages: click.secho('Creating sign in pages', fg="blue")
+    # if canvass_pages: click.secho('Creating canvass pages', fg="blue")
+
     time1 = time.time()
 
     tracker_pages = tracker_pages.replace(" ", "")
