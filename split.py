@@ -5,8 +5,8 @@ import os
 def split_scripts(pdf, first_page, last_page, outputpdf):
     bashCommand = "pdfjam " + pdf + " '" + str(first_page) + "-" + str(last_page) + "'" + " --outfile " + outputpdf
     subprocess.call(['bash','-c', bashCommand], stdout=open(os.devnull, 'wb'))
-    string = "Creating " + outputpdf
-    click.secho(string, fg='blue')
+    string = "Created " + outputpdf
+    click.secho(string, fg='blue', bg='white')
 
 
 def loop_scripts(pdf, start_page, total_pages, increment, outputpdf):

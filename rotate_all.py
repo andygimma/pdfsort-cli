@@ -3,7 +3,7 @@ import sys
 
 def rotate_all(input_pdf, output_pdf, degrees):
     pdf_in = open(input_pdf, 'rb')
-    pdf_reader = PyPDF2.PdfFileReader(pdf_in)
+    pdf_reader = PyPDF2.PdfFileReader(pdf_in, False)
     pdf_writer = PyPDF2.PdfFileWriter()
     for pagenum in range(pdf_reader.numPages):
         page = pdf_reader.getPage(pagenum)
