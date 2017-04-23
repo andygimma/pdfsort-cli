@@ -11,7 +11,8 @@ from split import loop_scripts
 @click.group(invoke_without_command=False)
 @click.pass_context
 def cli(ctx):
-    click.echo('Thank you for using pdfsort %s' % ctx.invoked_subcommand)
+    pass
+    # click.secho('Starting pdfsort %s' % ctx.invoked_subcommand, fg="white", bg="blue")
 
 @cli.command()
 @click.option('--degrees', default=180, help='degrees to rotate by')
@@ -19,7 +20,7 @@ def cli(ctx):
 @click.argument('output_pdf')
 def rotate_all(input_pdf, output_pdf, degrees):
     time1 = time.time()
-    description = "Rotating " + input_pdf + " by " + str(degrees) + " degrees"
+    description = "\nRotating " + input_pdf + " by " + str(degrees) + " degrees"
     click.secho(description, fg='green')
     rotate_function(input_pdf, output_pdf, degrees)
     click.secho("Created: " + output_pdf, fg='green')
@@ -32,9 +33,8 @@ def rotate_all(input_pdf, output_pdf, degrees):
 @click.argument('output_pdf')
 @click.argument('pages_list')
 def generate(input_pdf, output_pdf, pages_list):
-    print "GENERATE"
     time1 = time.time()
-    description = "Creating " + output_pdf + " from " + input_pdf + " pages " + pages_list
+    description = "\nCreating " + output_pdf + " from " + input_pdf + " pages " + pages_list
     click.secho(description, fg='green')
 
     generate_new_pdf(input_pdf, pages_list, output_pdf)
@@ -51,7 +51,7 @@ def generate(input_pdf, output_pdf, pages_list):
 @click.argument('degrees')
 def rotate_pages(input_pdf, output_pdf, pages_list, degrees):
     time1 = time.time()
-    description = "Rotating pages " + pages_list + " " + degrees + " from " + input_pdf + " to " + output_pdf
+    description = "\nRotating pages " + pages_list + " " + degrees + " from " + input_pdf + " to " + output_pdf
     click.secho(description, fg='green')
 
     rotate_pages_by_degrees(input_pdf, pages_list, output_pdf, int(degrees))
@@ -70,7 +70,7 @@ def rotate_pages(input_pdf, output_pdf, pages_list, degrees):
 @click.argument('increment')
 def split(input_pdf, output_pdf, first_page, last_page, increment):
     time1 = time.time()
-    description = "Splitting " + input_pdf
+    description = "\nSplitting " + input_pdf
     click.secho(description, fg='green')
 
     loop_scripts(input_pdf, int(first_page), int(last_page), int(increment), output_pdf)
@@ -90,6 +90,7 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
 @click.option('--increment')
 
 def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
+    click.secho('Starting kedsort\n', fg="green")
     time1 = time.time()
 
     if tracker_pages:
