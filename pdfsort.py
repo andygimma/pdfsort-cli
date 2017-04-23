@@ -93,6 +93,10 @@ def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
     click.secho('Starting kedsort\n', fg="green")
     time1 = time.time()
 
+    tracker_pages = tracker_pages.replace(" ", "")
+    sign_in_pages = sign_in_pages.replace(" ", "")
+    canvass_pages = canvass_pages.replace(" ", "")
+
     if tracker_pages:
         tracker_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-tracker.pdf"
         bashCommand = "pdfsort generate " + input_pdf + " " + tracker_pdf + " " + tracker_pages
