@@ -4,13 +4,13 @@
 #### Installation in a python virtual environment
 Run in a virtualenv
 1. clone this repo
-1. 'cd pdfsort'
-1. 'virtualenv venv'
-1. '. venv/bin/activate'
-1. 'pip install --editable .'
+1. `cd pdfsort`
+1. `virtualenv venv`
+1. `. venv/bin/activate`
+1. `pip install --editable .`
 
 To turn off virtualenv
-1. 'deactivate'
+1. `deactivate`
 
 #### Generate a new pdf based on a list of pages from an input pdf
 
