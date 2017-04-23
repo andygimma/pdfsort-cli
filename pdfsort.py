@@ -80,8 +80,6 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
     time_string = "Finished splitting into individual canvass files: " + time_string
     click.secho(time_string, fg='green')
 
-#pdfsort kedsort --input file.pdf --trackers 1,2,3 --sign_in 24,25,26 --canvass 4-23 --increment 4
-
 @cli.command()
 @click.argument('input_pdf')
 @click.option('--tracker_pages')
@@ -91,9 +89,6 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
 
 def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
     click.secho('Starting kedsort\n', fg="green")
-    # if tracker_pages: click.secho('Creating tracker pages', fg="blue")
-    # if sign_in_pages: click.secho('Creating sign in pages', fg="blue")
-    # if canvass_pages: click.secho('Creating canvass pages', fg="blue")
 
     time1 = time.time()
 
@@ -105,46 +100,33 @@ def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
         if not os.path.exists('trackers'):
             os.makedirs('trackers')
         tracker_pdf = "trackers/" + input_pdf.replace(" ", "").replace(".pdf", "") + "-tracker.pdf"
-        bashCommand = "pdfsort generate " + input_pdf + " " + tracker_pdf + " " + tracker_pages
         click.secho("Adding tracker pages", fg='green')
 
         generate_new_pdf(input_pdf, tracker_pages, tracker_pdf)
-
-        # subprocess.call(['bash','-c', bashCommand])
 
     if sign_in_pages:
         if not os.path.exists('sign_ins'):
             os.makedirs('sign_ins')
         sign_in_pdf = "sign_ins/" + input_pdf.replace(" ", "").replace(".pdf", "") + "-sign_in.pdf"
-        bashCommand = "pdfsort generate " + input_pdf + " " + sign_in_pdf + " " + sign_in_pages
         click.secho("Adding sign in pages", fg='green')
 
         generate_new_pdf(input_pdf, sign_in_pages, sign_in_pdf)
-
-        # subprocess.call(['bash','-c', bashCommand])
 
     if canvass_pages:
         if not os.path.exists('canvass'):
             os.makedirs('canvass')
         canvass_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-canvass.pdf"
-        bashCommand = "pdfsort generate " + input_pdf + " " + canvass_pdf + " " + canvass_pages
         click.secho("Adding canvass pages", fg='green')
 
         generate_new_pdf(input_pdf, canvass_pages, "canvass/" + canvass_pdf)
-
-        # subprocess.call(['bash','-c', bashCommand])
 
         if increment:
             if not os.path.exists('canvass/individual'):
                 os.makedirs('canvass/individual')
             total_pages = PyPDF2.PdfFileReader("canvass/" + canvass_pdf, False).getNumPages()
-            bashCommand = "pdfsort split " + canvass_pdf + " " + canvass_pdf + " 1 " + str(total_pages) + " " + str(increment)
             click.secho("Splitting canvass pages", fg='green')
 
             loop_scripts("canvass/" + canvass_pdf, 1, total_pages, int(increment), "canvass/individual/" + canvass_pdf)
-
-
-            # subprocess.call(['bash','-c', bashCommand])
 
     time2 = time.time()
     time_string = '%0.3f seconds' % ((time2-time1))
