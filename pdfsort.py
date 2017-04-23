@@ -59,7 +59,7 @@ def rotate_pages(input_pdf, output_pdf, pages_list, degrees):
     click.secho("Created: " + output_pdf, fg='green')
     time2 = time.time()
     time_string = '%0.3f seconds' % ((time2-time1))
-    time_string = "Finished: " + time_string
+    time_string = "Finished rotating all pages: " + time_string
     click.secho(time_string, fg='green')
 
 @cli.command()
@@ -77,7 +77,7 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
 
     time2 = time.time()
     time_string = '%0.3f seconds' % ((time2-time1))
-    time_string = "Finished: " + time_string
+    time_string = "Finished splitting into individual canvass files: " + time_string
     click.secho(time_string, fg='green')
 
 #pdfsort kedsort --input file.pdf --trackers 1,2,3 --sign_in 24,25,26 --canvass 4-23 --increment 4
@@ -90,6 +90,8 @@ def split(input_pdf, output_pdf, first_page, last_page, increment):
 @click.option('--increment')
 
 def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
+    time1 = time.time()
+
     if tracker_pages:
         tracker_pdf = input_pdf.replace(" ", "").replace(".pdf", "") + "-tracker.pdf"
         bashCommand = "pdfsort generate " + input_pdf + " " + tracker_pdf + " " + tracker_pages
@@ -109,3 +111,8 @@ def kedsort(input_pdf, tracker_pages, sign_in_pages, canvass_pages, increment):
             total_pages = PyPDF2.PdfFileReader(canvass_pdf, False).getNumPages()
             bashCommand = "pdfsort split " + canvass_pdf + " " + canvass_pdf + " 1 " + str(total_pages) + " " + str(increment)
             subprocess.call(['bash','-c', bashCommand])
+
+    time2 = time.time()
+    time_string = '%0.3f seconds' % ((time2-time1))
+    time_string = "Total time: " + time_string
+    click.secho(time_string, fg='green')
