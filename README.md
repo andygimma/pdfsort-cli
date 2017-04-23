@@ -21,6 +21,8 @@ This has helped me split large pdfs of canvassing data.
 
 `pdfsort split input_pdf, output_pdf, first_page, last_page, increment`
 
+Note: This currently relies on `pdfjam`. This will be changed in the near future.
+
 #### Rotate all pages in a pdf by 180 degrees and create an output pdf. Can optionally specify degrees.
 
 `pdfsort rotate_all input_pdf, output_pdf [, degrees]`
